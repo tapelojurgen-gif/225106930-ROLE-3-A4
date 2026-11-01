@@ -1,6 +1,6 @@
 # STEMMate Namibia: Role 3 test plan
 
-**Tester:** Jurgen  **Date:** ____  **Browser:** Google Chrome  **Address:** http://localhost:5173
+**Tester:** Jurgen **Browser:** Google Chrome  **Address:** http://localhost:5173
 
 ## T1. The page is styled
 **Why:** Your partner's version had no styling because Tailwind was set up for the wrong version. This confirms it is fixed.
