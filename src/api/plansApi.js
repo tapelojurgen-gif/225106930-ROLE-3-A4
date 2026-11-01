@@ -51,6 +51,10 @@ async function http(path, options = {}) {
 }
 
 // ---------- Local storage helpers ----------
+// Remembered for the whole session so the "data was reset" notice still shows
+// even if the app loads its data twice (React StrictMode does this in development).
+let recoveredThisSession = false;
+
 function readLocal() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return { plans: [], recovered: false };
@@ -60,6 +64,7 @@ function readLocal() {
     return { plans: parsed, recovered: false };
   } catch {
     // Recovery: keep a copy of the damaged data, then start clean.
+    recoveredThisSession = true;
     try {
       localStorage.setItem(BACKUP_KEY, raw);
       localStorage.removeItem(STORAGE_KEY);
@@ -88,7 +93,8 @@ export async function getActivities() {
 }
 
 export async function listPlans() {
-  return readLocal();
+  const { plans } = readLocal();
+  return { plans, recovered: recoveredThisSession };
 }
 
 export async function createPlan({ activity, notes }, { online }) {
